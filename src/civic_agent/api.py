@@ -8,13 +8,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+from dotenv import load_dotenv
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 
 def load_env() -> tuple[str, str]:
     """Load address and API key from .env file."""
-    from dotenv import load_dotenv
     load_dotenv()
     
     address = os.getenv("CIVIC_ADDRESS", "")

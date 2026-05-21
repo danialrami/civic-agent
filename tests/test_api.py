@@ -17,7 +17,7 @@ def test_load_env_missing_values(monkeypatch):
     monkeypatch.delenv("GOOGLE_CIVIC_API_KEY", raising=False)
     
     # Mock dotenv to avoid actual file loading
-    with patch("civic_agent.api.load_dotenv"):
+    with patch("dotenv.load_dotenv"):
         with pytest.raises(ValueError):
             load_env()
 
