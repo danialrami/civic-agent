@@ -38,7 +38,6 @@ ENV/
 # Project specific
 output/
 *.ics
-*.json
 
 # Local sessions (contains personal election info)
 docs/opencode-sessions/
@@ -48,6 +47,9 @@ docs/gemini/
 
 # OpenCode (agent definition is committed, but not personal data)
 # .opencode/ is committed to share agent definitions
+.opencode/node_modules/
+.opencode/package*.json
+.opencode/.gitignore
 
 # OS
 .DS_Store
