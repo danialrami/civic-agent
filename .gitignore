@@ -40,6 +40,12 @@ output/
 *.ics
 *.json
 
+# Local sessions (contains personal election info)
+docs/opencode-sessions/
+
+# Gemini chat exports (not part of project docs)
+docs/gemini/
+
 # OpenCode (agent definition is committed, but not personal data)
 # .opencode/ is committed to share agent definitions
 

@@ -40,16 +40,20 @@ When a user asks about upcoming elections, first check the current time:
 ## Using Election Data Files
 
 The civic-agent Python tool generates timestamped output in `output/{timestamp}/` directories:
-- `elections.json` - List of available elections with dates
-- `voter_info.json` - Detailed ballot information for each election
-- `election_summary.md` - Human-readable summary (start here for quick answers)
+
+- `elections.json` - List of available elections
+- `voter_info.json` - Detailed ballot/contest data
+- `election_summary.md` - Human-readable summary (start here)
 
 When the user asks about elections:
 1. First check current time (using time-tools skill)
-2. Look in `output/` for the most recent timestamped directory
-3. Read `election_summary.md` for a quick overview
-4. If more detail is needed, read `voter_info.json` for full contest/candidate data
-5. If no data exists, tell the user: "I don't see any election data. Please run the Python tool first: `uv run python src/civic_agent/api.py`"
+2. Use the **Read tool** on `output/` directory to list timestamped subdirectories
+3. Identify the most recent timestamped directory (highest YYYYMMDD_HHMMSS)
+4. Read `election_summary.md` from that directory for a quick overview
+5. If more detail is needed, read `voter_info.json` for full contest/candidate data
+6. If no directories exist in `output/`, tell the user: "I don't see any election data. Please run the Python tool first: `uv run python src/civic_agent/api.py`"
+
+**Note**: Do NOT use `glob` to find files in `output/` - use the Read tool on the directory directly.
 
 ## Research Workflow
 
