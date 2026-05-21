@@ -60,13 +60,16 @@ Common issues and their solutions when working with the Civic Agent project.
 
 ### Problem: API Returns Empty Elections List
 
-**Cause**: No upcoming elections found for the address.
+**Cause**: No upcoming elections found for the address within the look-ahead period.
 
 **Solution**:
 1. This is normal - there may not be elections in the near future
-2. Check the [Google Civic API documentation](https://developers.google.com/civic-information) for election availability
-3. Try a different address in an area with known upcoming elections
-4. Verify the current date - elections may have already passed
+2. Try extending the look-ahead period:
+   ```bash
+   uv run python src/civic_agent/api.py --days-ahead 180
+   ```
+3. Check the [Google Civic API documentation](https://developers.google.com/civic-information) for election availability
+4. Try a different address in an area with known upcoming elections
 
 ---
 
@@ -109,7 +112,48 @@ uv add python-dotenv
 
 ---
 
-## OpenCode Agent Issues
+## CLI Flags Issues
+
+### Problem: How do I use the new CLI flags?
+
+**Solution**: The updated `api.py` supports several flags:
+
+```bash
+# Show help with all flags
+uv run python src/civic_agent/api.py --help
+
+# Default: 90 days ahead, auto-detect state
+uv run python src/civic_agent/api.py
+
+# Target specific election by ID
+uv run python src/civic_agent/api.py --election-id 11256
+
+# Look up to 180 days ahead
+uv run python src/civic_agent/api.py --days-ahead 180
+
+# Force refresh even if data is recent
+uv run python src/civic_agent/api.py --force-refresh
+
+# Keep only newest 50 directories (instead of 100)
+uv run python src/civic_agent/api.py --keep-dirs 50
+```
+
+---
+
+### Problem: `metadata.json` not found in output directory
+
+**Cause**: You're using an old version of the output (before the v2 update).
+
+**Solution**:
+1. Re-run the API tool to generate fresh data:
+   ```bash
+   uv run python src/civic_agent/api.py
+   ```
+2. The new format includes `metadata.json` with freshness info and CLI command used
+
+---
+
+## Agent Workflow Issues
 
 ### Problem: Agent not appearing in OpenCode
 
@@ -123,6 +167,36 @@ uv add python-dotenv
 
 ---
 
+### Problem: Agent can't run `uv run python src/civic_agent/api.py`
+
+**Cause**: Bash permissions not configured correctly.
+
+**Solution**:
+1. Verify `.opencode/agents/civic-researcher.md` has:
+   ```yaml
+   permission:
+     bash:
+       "uv run python src/civic_agent/api.py*": allow
+       "*": deny
+   ```
+2. Restart OpenCode to reload permissions
+3. The agent can ONLY run `uv run python src/civic_agent/api.py*` commands (nothing else)
+
+---
+
+### Problem: Agent says "My data is X days old" but doesn't refresh
+
+**Cause**: The autonomous refresh logic checks if `days_since_generated > 30`.
+
+**Solution**:
+1. Force a refresh:
+   ```bash
+   uv run python src/civic_agent/api.py --force-refresh
+   ```
+2. Or wait for the agent to detect stale data (30+ days old)
+
+---
+
 ### Problem: Agent can't read election data files
 
 **Cause**: Output directory doesn't exist or paths are incorrect.
@@ -130,7 +204,7 @@ uv add python-dotenv
 **Solution**:
 1. Run the Python tool first: `uv run python src/civic_agent/api.py`
 2. Verify `output/` directory was created with timestamped subdirectories
-3. Check that `election_summary.md` exists in the output folder
+3. Check that `metadata.json` and `election_summary.md` exist in the output folder
 4. The agent reads from the most recent `output/{timestamp}/` directory
 
 ---
@@ -146,7 +220,9 @@ uv add python-dotenv
      read: allow
      edit: deny
      write: deny
-     bash: deny
+     bash:
+       "uv run python src/civic_agent/api.py*": allow
+       "*": deny
    ```
 2. Restart OpenCode to reload permissions
 3. Test by attempting to edit a file as the agent
@@ -177,6 +253,30 @@ uv add python-dotenv
    ```
 2. The new data will be in a new `output/{timestamp}/` directory
 3. The agent reads the most recent timestamped directory
+4. Check `metadata.json` for `days_since_generated` and `next_election`
+
+---
+
+## Cleaning Up Old Data
+
+### Problem: Too many timestamped directories in `output/`
+
+**Cause**: Multiple runs of `api.py` created many directories.
+
+**Solution**:
+1. The cleanup logic automatically keeps only the newest 100 directories
+2. To manually clean up:
+   ```bash
+   # See what's in output/
+   ls -la output/
+   
+   # Remove old directories manually
+   rm -rf output/20260521_123150/  # Example
+   ```
+3. Change number of directories to keep:
+   ```bash
+   uv run python src/civic_agent/api.py --keep-dirs 50
+   ```
 
 ---
 
