@@ -43,12 +43,12 @@ def get_voter_info(api_key: str, address: str, election_id: Optional[str] = None
     """Fetch detailed voter information for a specific election and address."""
     service = build("civicinfo", "v2", developerKey=api_key)
     
-    body = {"address": address}
+    params = {"address": address}
     if election_id:
-        body["electionId"] = election_id
+        params["electionId"] = election_id
     
     try:
-        result = service.elections().voterInfoQuery(body=body).execute()
+        result = service.elections().voterInfoQuery(**params).execute()
         return result
     except HttpError as e:
         raise RuntimeError(f"Failed to fetch voter info: {e}")
@@ -106,10 +106,34 @@ def main():
         
         print(f"Found {len(elections)} election(s)")
         
-        # Get voter info for the first upcoming election
-        # TODO: User may want to specify which election or get all
-        first_election = elections[0]
-        voter_info = get_voter_info(api_key, address, first_election["id"])
+        # Find elections for the user's state (extract state from address)
+        state = address.split(",")[-1].strip()[:2] if "," in address else None
+        
+        # Try to find a real election (not the VIP test) for user's state
+        target_election = None
+        for election in elections:
+            # Skip the VIP test election (ID 2000)
+            if election.get("id") == "2000":
+                continue
+            # If we can identify state from OCD division, match it
+            ocd_id = election.get("ocdDivisionId", "")
+            if state and f"state:{state.lower()}" in ocd_id:
+                target_election = election
+                break
+        
+        # Fall back to first non-test election
+        if not target_election:
+            for election in elections:
+                if election.get("id") != "2000":
+                    target_election = election
+                    break
+        
+        # Fall back to first election if no match
+        if not target_election:
+            target_election = elections[0]
+        
+        print(f"Fetching voter info for: {target_election['name']}")
+        voter_info = get_voter_info(api_key, address, target_election["id"])
         
         output_path = save_election_data(elections, voter_info)
         print(f"Election data saved to: {output_path}")
