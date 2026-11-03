@@ -119,6 +119,12 @@ uv run python src/civic_agent/api.py --election-id 12000
 
 # Force data refresh
 uv run python src/civic_agent/api.py --force-refresh
+
+# Render markdown ballot guide and verify 1-page PDF fit (dry-run)
+uv run python src/civic_agent/print_ballot.py elections/2026-11-03_texas-general/ballot-guide.md --dry-run
+
+# Render and dispatch physical 1-page print job to Gusli with hardware IPP verification
+uv run python src/civic_agent/print_ballot.py elections/2026-11-03_texas-general/ballot-guide.md
 ```
 
 ---
@@ -127,7 +133,8 @@ uv run python src/civic_agent/api.py --force-refresh
 
 This repository provides dual-layer agent support for maximum compatibility:
 
-- **Agnostic Skill (`.agents/skills/civic-researcher/SKILL.md`)**:
-  Follows the open [Agent Skills specification](https://agentskills.io). Automatically discovered and loaded by **pi**, **Claude Code**, **OpenCode**, and **Codex**. Can be explicitly triggered via `/skill:civic-researcher`.
+- **Agnostic Skills (`.agents/skills/`)**:
+  - `civic-researcher/SKILL.md`: Follows the open [Agent Skills specification](https://agentskills.io). Automatically discovered and loaded by **pi**, **Claude Code**, **OpenCode**, and **Codex**. Can be explicitly triggered via `/skill:civic-researcher`.
+  - `print-tools/SKILL.md`: Manages Gotenberg PDF conversions, 1-page layout enforcement, CUPS dispatch, and IPP hardware completion verification on the local Brother printer (`Gusli`).
 - **OpenCode Persona (`.opencode/agents/civic-researcher.md`)**:
-  Provides a native primary persona when running `opencode .` in the repository, locking down the harness environment with read-only permissions and gating bash execution strictly to `uv run python src/civic_agent/api.py*`.
+  Provides a native primary persona when running `opencode .` in the repository, locking down the harness environment with read-only source permissions, scoped write access to `elections/**`, and gated bash execution.

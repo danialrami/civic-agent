@@ -249,16 +249,23 @@ Civic Researcher:
 
 ```
 civic-agent/
+├── .agents/skills/           # Agent Skills standard (pi, Claude Code, OpenCode)
+│   ├── civic-researcher/     # Non-partisan election researcher skill
+│   └── print-tools/          # Gotenberg/CUPS 1-page printing skill
 ├── .opencode/agents/
-│   └── civic-researcher.md    # OpenCode agent definition
+│   └── civic-researcher.md   # OpenCode primary agent persona
 ├── .env.example              # Template for API key + address
-├── output/                   # Timestamped election data (gitignored)
+├── elections/                # Personal deliberation & voter decisions (gitignored)
+│   └── {YYYY-MM-DD}_{slug}/  # Per-election workspace (dossier, ballot guide, decisions)
+├── output/                   # Timestamped election API pulls (gitignored)
 ├── src/civic_agent/
 │   ├── __init__.py
-│   ├── api.py               # Google Civic API client (v2)
-│   └── calendar.py          # Optional .ics generator (placeholder)
+│   ├── api.py                # Google Civic API client
+│   ├── calendar.py           # Optional .ics generator
+│   └── print_ballot.py       # Markdown parser, Gotenberg renderer & IPP print verifier
 ├── tests/
-│   └── test_api.py
+│   ├── test_api.py
+│   └── test_print.py
 ├── docs/                     # Comprehensive documentation
 │   ├── 01-problem.md
 │   ├── 02-past-solutions.md
@@ -266,6 +273,7 @@ civic-agent/
 │   ├── 04-our-solution.md
 │   ├── 05-implementation.md
 │   └── 06-troubleshooting.md
+├── AGENTS.md                 # Cross-agent operational guide & contracts
 └── pyproject.toml
 ```
 
@@ -274,15 +282,18 @@ civic-agent/
 ## Git Info
 
 **Tracked (will be pushed):**
-- `.opencode/agents/civic-researcher.md` (agent definition)
-- `src/civic_agent/` (Python source)
-- `tests/` (test files)
+- `.agents/skills/` (cross-platform skills: civic-researcher, print-tools)
+- `.opencode/agents/civic-researcher.md` (OpenCode agent definition)
+- `src/civic_agent/` (Python source: api, print_ballot, calendar)
+- `tests/` (unit test suite)
 - `docs/` (documentation, except `opencode-sessions/` and `gemini/`)
+- `AGENTS.md` (operational architecture guide)
 - `.env.example` (template)
 
 **Gitignored (NOT pushed):**
 - `.env` (personal API key + address)
-- `output/` (election data with personal address)
+- `elections/` (personal voting dossiers, ballot cheat sheets, and decisions)
+- `output/` (raw election data with personal address)
 - `docs/opencode-sessions/` (session transcripts)
 - `docs/gemini/` (chat exports)
 - `.venv/` (virtual environment)
