@@ -38,6 +38,7 @@ ENV/
 # Project specific
 output/
 *.ics
+elections/
 
 # Local sessions (contains personal election info)
 docs/opencode-sessions/

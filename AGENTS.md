@@ -66,6 +66,13 @@ Every run of `uv run python src/civic_agent/api.py` outputs four artifacts into 
 3. **`voter_info.json`**: Detailed ballot data: contests, candidates, early voting sites, and polling places.
 4. **`election_summary.md`**: Clean human and LLM-readable overview of upcoming contests and dates.
 
+### The Deliberation Workspace (`elections/<YYYY-MM-DD>_<slug>/`)
+To bridge the gap between raw data collection and the physical voting booth, candidate research and voter decisions are banked into date-versioned folders under `elections/`:
+
+- **`research-dossier.md`**: Neutral, cited breakdown of every race, candidate platform, track record, and proposition.
+- **`ballot-guide.md`**: Single-page, printable pocket cheat sheet designed to be taken into voting booths where cell phones are prohibited by state law.
+- **`voter-decisions.md`**: Voter-maintained decision log tracking individual policy priorities, candidate leanings, and voting rationales.
+
 ---
 
 ## 2. Core Rules for AI Agents

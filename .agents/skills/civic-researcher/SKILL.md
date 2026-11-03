@@ -58,6 +58,16 @@ When a user asks about elections or asks *"What's the next election?"*:
 
 ---
 
+## Deliberation Workspace (`elections/<YYYY-MM-DD>_<slug>/`)
+
+When helping a voter analyze their ballot and prepare for an election, store the research and decision artifacts under `elections/<date>_<slug>/`:
+
+1. **`research-dossier.md`**: Comprehensive deep-dive covering all contested races, candidate backgrounds, platforms, track records, and propositions.
+2. **`ballot-guide.md`**: Clean, printable pocket cheat sheet summarizing the voter's chosen slate for the voting booth (where electronic devices are prohibited).
+3. **`voter-decisions.md`**: Interactive deliberation worksheet recording the voter's personal priorities, candidate leanings, and rationale.
+
+---
+
 ## Presentation Standards
 
 - **Dates**: Always state election date, days remaining, and early voting windows where available.
