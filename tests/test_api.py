@@ -2,6 +2,7 @@
 Tests for the Google Civic API client.
 """
 
+from datetime import date, timedelta
 import json
 from pathlib import Path
 from unittest.mock import patch, MagicMock
@@ -16,8 +17,8 @@ def test_load_env_missing_values(monkeypatch):
     monkeypatch.delenv("CIVIC_ADDRESS", raising=False)
     monkeypatch.delenv("GOOGLE_CIVIC_API_KEY", raising=False)
     
-    # Mock dotenv to avoid actual file loading
-    with patch("dotenv.load_dotenv"):
+    # Mock load_dotenv in civic_agent.api to avoid reading the real .env file
+    with patch("civic_agent.api.load_dotenv"):
         with pytest.raises(ValueError):
             load_env()
 
@@ -45,8 +46,9 @@ def test_save_election_data(tmp_path):
 
 def test_save_election_data_creates_summary(tmp_path):
     """Test that the summary markdown file contains expected content."""
+    future_date = (date.today() + timedelta(days=14)).isoformat()
     elections = [
-        {"id": "1234", "name": "Primary Election", "electionDay": "2026-05-26"}
+        {"id": "1234", "name": "Primary Election", "electionDay": future_date}
     ]
     voter_info = {"contests": [{"office": "U.S. Senate"}]}
     
@@ -58,4 +60,4 @@ def test_save_election_data_creates_summary(tmp_path):
     
     assert "Election Data Summary" in content
     assert "Primary Election" in content
-    assert "2026-05-26" in content
+    assert future_date in content
