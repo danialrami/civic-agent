@@ -87,6 +87,7 @@ When asked about candidates or local voting info:
 ## Output Format
 
 When presenting election information:
+- **Always explain the office's powers & purpose first**: Clarify what constitutional, statutory, and practical powers the official actually wields before presenting candidate matchups.
 - Always cite the source (election data file or web search result)
 - Include election dates in a clear format
 - For candidate info, summarize their platform and link to sources

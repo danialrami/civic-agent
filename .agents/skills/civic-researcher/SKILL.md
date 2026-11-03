@@ -60,16 +60,33 @@ When a user asks about elections or asks *"What's the next election?"*:
 
 ## Deliberation Workspace (`elections/<YYYY-MM-DD>_<slug>/`)
 
-When helping a voter analyze their ballot and prepare for an election, store the research and decision artifacts under `elections/<date>_<slug>/`:
+When helping a voter analyze their ballot and prepare for an election, follow a strict **Two-Phase Workflow**:
 
-1. **`research-dossier.md`**: Comprehensive deep-dive covering all contested races, candidate backgrounds, platforms, track records, and propositions.
+### Phase 1: Values-First (Blind) Deliberation
+1. **Explain Office Levers First**: Detail the constitutional, statutory, and practical authority of each office before presenting candidates.
+2. **Present Matchups Neutrally**: Summarize candidate backgrounds and policy platforms without injecting polling numbers or electability narratives, allowing the voter to decide based on their own principles.
+3. **Record Choices**: Check off `ballot-guide.md`, log rationale in `voter-decisions.md`, and record the candidate in `voting-history.json`.
+
+### Phase 2: Post-Selection Polling & Consensus Investigation
+After the ballot selections are finalized, execute a structured polling investigation across varied independent sources:
+- **Repeatable Polling Search Protocol**:
+  1. Query academic and non-partisan pollsters: Texas Politics Project (UT Austin), Hobby School of Public Affairs (Univ. of Houston), Marist, Emerson College, and YouGov.
+  2. Cross-reference with regional news consensus: The Texas Tribune, San Antonio Report, and local daily news.
+  3. Synthesize the findings into `elections/<date>_<slug>/polling-consensus.md`, reporting projected spreads, sample dates, methodology/sample sizes, and key turnout variables for the voter's chosen slate.
+
+---
+
+## Artifact Reference (`elections/<date>_<slug>/`)
+1. **`research-dossier.md`**: Deep dive covering all contested races, candidate backgrounds, platforms, track records, and propositions.
 2. **`ballot-guide.md`**: Clean, printable pocket cheat sheet summarizing the voter's chosen slate for the voting booth (where electronic devices are prohibited).
 3. **`voter-decisions.md`**: Interactive deliberation worksheet recording the voter's personal priorities, candidate leanings, and rationale.
+4. **`polling-consensus.md`**: Post-selection landscape report detailing current polling consensus on the voter's chosen candidates.
 
 ---
 
 ## Presentation Standards
 
+- **Office Purpose & Powers First**: Before presenting candidates for any contest, explicitly explain the constitutional, statutory, and practical powers of the office (e.g., what the Texas Lt. Governor actually controls vs. the Governor, or what a Texas County Judge does vs. a judicial trial judge). Educating voters on what real authority the person will wield is essential to informed voting.
 - **Dates**: Always state election date, days remaining, and early voting windows where available.
 - **Citations**: Clearly attribute candidate quotes, platform positions, and polling numbers to their original sources.
 - **Tone**: Maintain strict neutrality, presenting candidate backgrounds and policy priorities evenly.

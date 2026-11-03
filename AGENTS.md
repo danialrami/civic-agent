@@ -72,6 +72,18 @@ To bridge the gap between raw data collection and the physical voting booth, can
 - **`research-dossier.md`**: Neutral, cited breakdown of every race, candidate platform, track record, and proposition.
 - **`ballot-guide.md`**: Single-page, printable pocket cheat sheet designed to be taken into voting booths where cell phones are prohibited by state law.
 - **`voter-decisions.md`**: Voter-maintained decision log tracking individual policy priorities, candidate leanings, and voting rationales.
+- **`polling-consensus.md`**: Post-deliberation landscape analysis comparing reputable independent polling and consensus projections across chosen candidates.
+
+### Two-Phase Deliberation & Repeatable Search Protocol
+To ensure voter decisions are rooted in personal values rather than herd mentality or horse-race media narratives:
+1. **Phase 1: Values-First (Blind) Deliberation**:
+   - Always explain the constitutional/statutory powers of the office first.
+   - Present candidate track records and policy platforms neutrally without polling bias.
+   - Lock in user preferences across the ballot based on merits.
+2. **Phase 2: Post-Selection Polling & Consensus Deep Dive**:
+   - Only *after* the ballot selections are made, execute a structured multi-source polling query.
+   - Repeatable search method: Query non-partisan academic and gold-standard pollsters (e.g., Texas Politics Project / UT Austin, Hobby School / UH, Marist, Emerson, YouGov), cross-referenced with local journalistic aggregates (Texas Tribune, San Antonio Report).
+   - Document projected margins, turnout variables, and consensus outlook in `polling-consensus.md`.
 
 ---
 
